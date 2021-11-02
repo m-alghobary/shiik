@@ -1,28 +1,68 @@
 <script setup>
+import { ref } from 'vue';
+
 const props = defineProps({
-	modelValue: String,
+	done: Boolean
 });
 
-const emit = defineEmits(['update:modelValue']);
+const userName = ref('');
 
-function updateValue(value) {
-	emit('update:modelValue', value);
+const emit = defineEmits(['check']);
+
+function check() {
+	emit('check', userName.value);
 }
 </script>
 
 <template>
-	<div class="bg-gray-50 py-10 max-w-5xl mx-auto mt-6 rounded-lg shadow-md">
-		<div class="mt-1 w-10/12 mx-auto relative rounded-md shadow-sm">
-			<label for="price" class="block mb-2 text-center text-xl font-medium text-gray-700">Check Username</label>
+	<div class="mt-1 relative rounded-md shadow-sm">
+		<label for="user-name" class="block mb-2 text-gray-200">Check for username</label>
+		<div class="mt-1 flex rounded-md shadow-sm relative">
+			<div
+				v-show="!props.done"
+				class="
+					w-full
+					h-full
+					absolute
+					inset-0
+					bg-gradient-to-r
+					from-green-400
+					to-blue-500
+					rounded-md
+					opacity-40
+					grid
+					place-items-center
+				"
+			>
+				<span class="text-sm text-white italic">Loading...</span>
+			</div>
 			<input
-				:value="props.modelValue"
+				v-model="userName"
 				type="text"
-				name="price"
-				id="price"
-				class="focus:ring-blue-500 focus:border-blue-500 block w-full py-3 pl-7 pr-12 text-lg border-gray-300 rounded-md font-light"
-				placeholder="Username..."
-				@input="updateValue($event.target.value)"
+				id="user-name"
+				class="py-3 flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300 focus:outline-none"
+				placeholder="Type your username..."
 			/>
+			<button
+				class="
+					inline-flex
+					items-center
+					px-6
+					rounded-r-md
+					border border-l-0 border-blue-500
+					text-white
+					bg-gradient-to-r
+					from-green-400
+					to-blue-500
+					hover:from-blue-500 hover:to-green-500
+					transition-colors
+					duration-200
+					uppercase
+				"
+				@click="check"
+			>
+				Check
+			</button>
 		</div>
 	</div>
 </template>
